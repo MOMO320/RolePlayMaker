@@ -2,12 +2,12 @@
 
 
 #include "StartGameMode.h"
-#include "StartMapCamera.h"
+#include "StartMapCameraPawn.h"
 #include "GameStartPlayerController.h"
 
 
 AStartGameMode::AStartGameMode()
 {
-	DefaultPawnClass = AStartMapCamera::StaticClass();
+	DefaultPawnClass = AStartMapCameraPawn::StaticClass();
 	PlayerControllerClass = AGameStartPlayerController::StaticClass();
 }

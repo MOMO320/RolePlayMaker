@@ -16,7 +16,7 @@ public:
 	AStartMapCamera();
 
 public:
-	void CameraChange(ECameraState cameraState);
+	void CameraChange();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -25,14 +25,19 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	void CameraChangeViewTarget(int32 index);
 
 public:	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere )
 		TArray<AActor*> Cameras;
 
 private:
 	UPROPERTY()
-		APlayerController* Controller;
+		class	AGameStartPlayerController* PlayerController;
+
 	
+	
+
 	int CurrentCameraIndex;
 };

@@ -4,7 +4,13 @@
 #include "StartGameWidget.h"
 #include "Components/Button.h"
 #include <Kismet/GameplayStatics.h>
+#include "StartMapCameraPawn.h"
 
+
+void UStartGameWidget::BindCameraPawn(AStartMapCameraPawn* CurrentCameraPawn)
+{
+	CameraPawn = CurrentCameraPawn;
+}
 
 void UStartGameWidget::NativeConstruct()
 {
@@ -20,5 +26,5 @@ void UStartGameWidget::NativeConstruct()
 
 void UStartGameWidget::OnGameStartClicked()
 {
-
+	CameraPawn->ChangeCamera();
 }

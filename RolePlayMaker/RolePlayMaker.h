@@ -4,11 +4,3 @@
 
 #include "EngineMinimal.h"
 
-UENUM(BlueprintType)
-enum class ECameraState : uint8
-{
-	GAME_START,
-	CHARACTER_CHOICE,
-	CHARACTER_MAKE,
-	IN_GAME
-};

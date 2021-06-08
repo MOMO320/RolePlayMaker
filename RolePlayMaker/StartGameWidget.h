@@ -14,6 +14,9 @@ class ROLEPLAYMAKER_API UStartGameWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void BindCameraPawn(class AStartMapCameraPawn* CameraPawn);
+
 protected:
 	virtual void NativeConstruct() override;
 
@@ -24,5 +27,8 @@ protected:
 protected:
 	UPROPERTY()
 		class UButton* GameStartButton;
-	
+
+private:
+	TWeakObjectPtr<class AStartMapCameraPawn> CameraPawn;
+
 };

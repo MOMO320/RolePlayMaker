@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "RolePlayMaker.h"
 #include "Camera/PlayerCameraManager.h"
 #include "RPMPlayerCameraManager.generated.h"
 
@@ -13,5 +13,5 @@ UCLASS()
 class ROLEPLAYMAKER_API ARPMPlayerCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
-	
+
 };
