@@ -3,12 +3,14 @@
 
 #include "StartMapCameraPawn.h"
 #include "GameStartPlayerController.h"
+#include "MovieSceneSequencePlayer.h"
 
 // Sets default values
 AStartMapCameraPawn::AStartMapCameraPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 
 	CurrentCameraIndex = 0;
 }
@@ -18,8 +20,8 @@ void AStartMapCameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	First = false;
 	PlayerController = Cast<AGameStartPlayerController>(GetController());
+	
 
 	if (Cameras.Num() != 0)
 	{
@@ -32,7 +34,6 @@ void AStartMapCameraPawn::BeginPlay()
 void AStartMapCameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -50,7 +51,24 @@ void AStartMapCameraPawn::CameraChangeViewTarget(int32 index)
 
 void AStartMapCameraPawn::ChangeCamera()
 {
+	
+	FMovieSceneSequencePlaybackSettings PlaybackSettings;
+	ULevelSequencePlayer * LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(
+		GetWorld(), 
+		ChangeCameraSequence , 
+		PlaybackSettings, 
+		LevelSequenceActor
+	);
+
+	LevelSequencePlayer->OnFinished.AddDynamic(this, &AStartMapCameraPawn::CharacterSelectCamera);
+
+	LevelSequencePlayer->Play();
+}
+
+void AStartMapCameraPawn::CharacterSelectCamera()
+{
 	CurrentCameraIndex++;
 	CameraChangeViewTarget(CurrentCameraIndex);
+	UE_LOG(LogTemp,Error, TEXT("EVENT!!!!"));
 }
 

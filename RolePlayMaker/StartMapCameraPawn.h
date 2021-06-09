@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "LevelSequencePlayer.h"
 #include "StartMapCameraPawn.generated.h"
 
 UCLASS()
@@ -30,14 +31,24 @@ public:
 
 	void ChangeCamera();
 
+private:
+	UFUNCTION()
+	void CharacterSelectCamera();
+
 public:
 	UPROPERTY(EditAnywhere)
 		TArray<AActor*> Cameras;
+
+	UPROPERTY(EditAnywhere)
+		class ULevelSequence* ChangeCameraSequence;
+
+	UPROPERTY(EditAnywhere)
+		class ALevelSequenceActor* LevelSequenceActor;
 
 private:
 	UPROPERTY()
 		class AGameStartPlayerController* PlayerController;
 
+
 	int CurrentCameraIndex;
-	bool First;
 };
