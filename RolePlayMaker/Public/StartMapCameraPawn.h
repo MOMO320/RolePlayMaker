@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "RolePlayMaker.h"
 #include "GameFramework/Pawn.h"
 #include "LevelSequencePlayer.h"
 #include "StartMapCameraPawn.generated.h"

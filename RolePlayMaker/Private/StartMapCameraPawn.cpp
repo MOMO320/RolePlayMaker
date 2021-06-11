@@ -4,6 +4,7 @@
 #include "StartMapCameraPawn.h"
 #include "GameStartPlayerController.h"
 #include "MovieSceneSequencePlayer.h"
+#include "PlayerCharacterSetting.h"
 
 // Sets default values
 AStartMapCameraPawn::AStartMapCameraPawn()
@@ -11,6 +12,23 @@ AStartMapCameraPawn::AStartMapCameraPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	auto DefaultSetting = GetDefault<UPlayerCharacterSetting>();
+
+	if (DefaultSetting->CharacterHairAssets.Num() > 0)
+	{
+		for (auto ChracterHair : DefaultSetting->CharacterHairAssets)
+		{
+			UE_LOG(LogTemp,Warning, TEXT("Hair Asset : %s"), *ChracterHair.ToString());
+		}
+	}
+
+	if (DefaultSetting->CharacterTopAssets.Num() > 0)
+	{
+		for (auto ChracterTop : DefaultSetting->CharacterTopAssets)
+		{
+			UE_LOG(LogTemp,Warning, TEXT("Top Asset : %s"), *ChracterTop.ToString());
+		}
+	}
 
 	CurrentCameraIndex = 0;
 }
@@ -69,6 +87,5 @@ void AStartMapCameraPawn::CharacterSelectCamera()
 {
 	CurrentCameraIndex++;
 	CameraChangeViewTarget(CurrentCameraIndex);
-	UE_LOG(LogTemp,Error, TEXT("EVENT!!!!"));
 }
 

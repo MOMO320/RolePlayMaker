@@ -26,5 +26,7 @@ void UStartGameWidget::NativeConstruct()
 
 void UStartGameWidget::OnGameStartClicked()
 {
+	//GameStartButton->SetIsEnabled(false);
+	GameStartButton->SetVisibility(ESlateVisibility::Hidden);
 	CameraPawn->ChangeCamera();
 }
