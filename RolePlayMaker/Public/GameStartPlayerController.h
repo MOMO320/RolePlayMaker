@@ -20,6 +20,7 @@ public:
 	
 	void ChangeInputMode(bool bGameMode = true);
 	void SetStartWidgetCameraPawn(class AStartMapCameraPawn* currenPawn) const;
+	void ViewCharacterSelectWidget();
 
 protected:
 	virtual void BeginPlay() override;
@@ -32,10 +33,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = UI)
 		TSubclassOf<class UStartGameWidget> StartGameWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = UI)
+		TSubclassOf<class UCharacterSelectWidget> CharacterSelectWidgetClass;
 		
 private:
 	UPROPERTY()
 		class UStartGameWidget* StartGameWidget;
+
+	UPROPERTY()
+		class UCharacterSelectWidget* CharacterSelectWidget;
 
 	FInputModeUIOnly UIInputMode;
 	FInputModeGameOnly GameInputMode;

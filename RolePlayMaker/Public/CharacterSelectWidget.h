@@ -6,6 +6,13 @@
 #include "Blueprint/UserWidget.h"
 #include "CharacterSelectWidget.generated.h"
 
+UENUM(BlueprintType)
+enum class ECharacterSlot : uint8
+{
+	SLOT1,
+	SLOT2
+};
+
 /**
  * 
  */
@@ -15,7 +22,9 @@ class ROLEPLAYMAKER_API UCharacterSelectWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	
 	void SetCharacterSlot(class UPlayerSaveGame* PlayerSaveData , class UText*  PlayerName , class UText* PlayerLevel);
+
 
 protected:
 	virtual void NativeConstruct() override;
@@ -26,8 +35,18 @@ protected:
 	UFUNCTION()
 		void OnGameStartClicked();
 
+	UFUNCTION()
+		void OnSlot1CharacterSetClicked();
+
+	UFUNCTION()
+		void OnSlot2CharacterSetClicked();
+
 private:
 	void SetSlotData();
+
+	void SetCharacterModel(ECharacterSlot CurrentSlot);
+
+	void CharacterSlotEnable();
 
 protected:
 	UPROPERTY()
@@ -40,10 +59,18 @@ protected:
 		TArray<class UButton*> DisableSlotButtons;
 
 	UPROPERTY()
-		TArray<class UButton*> EnableSlotButtons;
+		class UButton* EnableSlot1Button;
+
+
+	UPROPERTY()
+		class UButton* EnableSlot2Button;
 
 	UPROPERTY()
 		class UButton* GameStartButton;
 
-	
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	ECharacterSlot ChoiceSlot;
 };

@@ -3,6 +3,7 @@
 
 #include "GameStartPlayerController.h"
 #include "StartGameWidget.h"
+#include "CharacterSelectWidget.h"
 #include "StartMapCameraPawn.h"
 
 AGameStartPlayerController::AGameStartPlayerController()
@@ -13,6 +14,11 @@ AGameStartPlayerController::AGameStartPlayerController()
 		StartGameWidgetClass = UI_GAMESTART_C.Class;
 	}
 
+	static ConstructorHelpers::FClassFinder<UCharacterSelectWidget> UI_CHARACTER_SELECT_C(TEXT("/Game/UI/CharacterSelect_Widget.CharacterSelect_Widget_C"));
+	if (UI_CHARACTER_SELECT_C.Succeeded())
+	{
+		CharacterSelectWidgetClass = UI_CHARACTER_SELECT_C.Class;
+	}
 }
 
 void AGameStartPlayerController::OnPossess(APawn* aPawn)
@@ -52,6 +58,16 @@ void AGameStartPlayerController::SetStartWidgetCameraPawn(class AStartMapCameraP
 	{
 		StartGameWidget->BindCameraPawn(currenPawn);
 	}
+}
+
+void AGameStartPlayerController::ViewCharacterSelectWidget()
+{
+	CharacterSelectWidget = CreateWidget<UCharacterSelectWidget>(this, CharacterSelectWidgetClass);
+	if (CharacterSelectWidget != nullptr)
+	{
+		CharacterSelectWidget->AddToViewport();
+	}
+
 }
 
 void AGameStartPlayerController::SetInputModeChange(FInputModeDataBase& inputMode, bool bGameMode)

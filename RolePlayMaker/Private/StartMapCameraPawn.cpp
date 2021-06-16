@@ -69,7 +69,6 @@ void AStartMapCameraPawn::CameraChangeViewTarget(int32 index)
 
 void AStartMapCameraPawn::ChangeCamera()
 {
-	
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	ULevelSequencePlayer * LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(
 		GetWorld(), 
@@ -87,5 +86,6 @@ void AStartMapCameraPawn::CharacterSelectCamera()
 {
 	CurrentCameraIndex++;
 	CameraChangeViewTarget(CurrentCameraIndex);
+	PlayerController->ViewCharacterSelectWidget();
 }
 
