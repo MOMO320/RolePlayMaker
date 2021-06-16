@@ -17,4 +17,7 @@ class ROLEPLAYMAKER_API AStartGameMode : public AGameModeBase
 public:
 	AStartGameMode();
 
+	virtual void PostInitializeComponents() override;
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
 };

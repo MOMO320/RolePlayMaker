@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include <Kismet/GameplayStatics.h>
 #include "Components/CanvasPanel.h"
+#include "PlayerCharacterState.h"
 
 
 void UCharacterSelectWidget::SetCharacterSlot(class UPlayerSaveGame* PlayerSaveData, class UText* PlayerName, class UText* PlayerLevel)
@@ -40,9 +41,9 @@ void UCharacterSelectWidget::NativeConstruct()
 	EnableSlot2Button->OnClicked.AddDynamic(this, &UCharacterSelectWidget::OnSlot2CharacterSetClicked);
 
 	// CharacterSlot Data Check!
-	CharacterSlotEnable();
-
-
+	auto PlayerCharacterState = GetDefault<APlayerCharacterState>();
+	CharacterSlotCheck(CharacterSlot1Panel, PlayerCharacterState->GetSlot1Data().PlayerSaveSlot);
+	CharacterSlotCheck(CharacterSlot2Panel, PlayerCharacterState->GetSlot1Data().PlayerSaveSlot);
 
 	SetSlotData();
 }
@@ -79,9 +80,22 @@ void UCharacterSelectWidget::SetCharacterModel(ECharacterSlot CurrentSlot)
 {
 }
 
-void UCharacterSelectWidget::CharacterSlotEnable()
+void UCharacterSelectWidget::CharacterSlotCheck(TArray<class UCanvasPanel*> CharacterSlotPanel, class UPlayerSaveGame* PlayerSaveData)
 {
-	
+	CharacterSlotPanel[0]->SetVisibility((PlayerSaveData == nullptr) ? ESlateVisibility::Visible : ESlateVisibility::Hidden);
+	CharacterSlotPanel[1]->SetVisibility((PlayerSaveData == nullptr) ? ESlateVisibility::Hidden : ESlateVisibility::Visible);
+
+	//if (PlayerSaveData == nullptr)
+	//{
+	//	CharacterSlotPanel[0]->SetVisibility(ESlateVisibility::Visible);
+	//	CharacterSlotPanel[1]->SetVisibility(ESlateVisibility::Hidden);
+	//}
+	//else
+	//{
+	//	CharacterSlotPanel[0]->SetVisibility(ESlateVisibility::Hidden);
+	//	CharacterSlotPanel[1]->SetVisibility(ESlateVisibility::Visible);
+	//}
 }
+
 
 

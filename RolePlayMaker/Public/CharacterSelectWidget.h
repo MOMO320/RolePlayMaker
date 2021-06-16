@@ -46,7 +46,7 @@ private:
 
 	void SetCharacterModel(ECharacterSlot CurrentSlot);
 
-	void CharacterSlotEnable();
+	void CharacterSlotCheck(TArray<class UCanvasPanel*> CharacterSlotPanel ,class  UPlayerSaveGame* PlayerSaveData);
 
 protected:
 	UPROPERTY()
