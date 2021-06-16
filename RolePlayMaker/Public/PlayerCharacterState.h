@@ -8,6 +8,23 @@
 
 DECLARE_MULTICAST_DELEGATE(FOnPlayerStateChangeDelegate);
 
+
+
+USTRUCT(BlueprintType)
+struct FSaveSlotData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	class UPlayerSaveGame* PlayerSaveSlot;
+
+	UPROPERTY()
+		FString SaveSlotName;
+
+	UPROPERTY()
+		int32 SlotIndex;
+};
 /**
  * 
  */
@@ -17,7 +34,6 @@ class ROLEPLAYMAKER_API APlayerCharacterState : public APlayerState
 	GENERATED_BODY()
 
 public:
-
 	APlayerCharacterState();
 
 	int32 GetCharacterLevel() const;
@@ -26,14 +42,18 @@ public:
 	int32 GetCharacterHairIndex() const;
 	FColor GetCharacterHairRGB() const;
 	int32 GetCharacterTopIndex() const;
-	
+
+	FSaveSlotData GetSlot1Data() const;
+	FSaveSlotData GetSlot2Data() const;
+
 	float GetExpRatio() const;
 	bool AddExp(int32 ComeExp);
 	void AddPlayerMoney();
 
-	void InitPlayerData();
-	void SavePlayerData();
+	void InitPlayerData(FSaveSlotData SlotData);
+	void SavePlayerData(FSaveSlotData SlotData);
 
+	bool LoadSaveFileCheck(FSaveSlotData SlotData);
 
 private:
 	void SetCharacterLevel(int32 CharacterLevel);
@@ -42,6 +62,12 @@ public:
 	FString SaveSlotName;
 
 	FOnPlayerStateChangeDelegate OnPlayerStateChanged;
+
+	UPROPERTY()
+		FSaveSlotData Slot1Data;
+
+	UPROPERTY()
+		FSaveSlotData Slot2Data;
 
 protected:
 

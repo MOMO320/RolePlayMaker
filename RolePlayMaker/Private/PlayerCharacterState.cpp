@@ -14,7 +14,7 @@ APlayerCharacterState::APlayerCharacterState()
 	CharacterHairIndex = 0;
 	CharacterHairRGB = FColor::Yellow;
 	CharacterTopIndex = 0;
-	SaveSlotName = TEXT("Player1");
+	SaveSlotName = TEXT("");
 }
 
 int32 APlayerCharacterState::GetCharacterLevel() const
@@ -47,6 +47,16 @@ int32 APlayerCharacterState::GetCharacterTopIndex() const
 	return CharacterTopIndex;
 }
 
+FSaveSlotData APlayerCharacterState::GetSlot1Data() const
+{
+	return Slot1Data;
+}
+
+FSaveSlotData APlayerCharacterState::GetSlot2Data() const
+{
+	return Slot2Data;
+}
+
 float APlayerCharacterState::GetExpRatio() const
 {
 	return 0.0f;
@@ -61,14 +71,16 @@ void APlayerCharacterState::AddPlayerMoney()
 {
 }
 
-void APlayerCharacterState::InitPlayerData()
+void APlayerCharacterState::InitPlayerData(FSaveSlotData SlotData)
 {
-	auto PlayerSaveGame = Cast<UPlayerSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
+	SlotData.PlayerSaveSlot = Cast<UPlayerSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotData.SaveSlotName, SlotData.SlotIndex));
 
-	if (nullptr == PlayerSaveGame)
+	if (nullptr == SlotData.PlayerSaveSlot)
 	{
-		PlayerSaveGame = GetMutableDefault<UPlayerSaveGame>();
+		SlotData.PlayerSaveSlot = GetMutableDefault<UPlayerSaveGame>();
 	}
+
+	UPlayerSaveGame* PlayerSaveGame = SlotData.PlayerSaveSlot;
 
 	SetPlayerName(PlayerSaveGame->Name);
 	//SetCharacterLevel(PlayerSaveGame->Level);
@@ -80,10 +92,10 @@ void APlayerCharacterState::InitPlayerData()
 	CharacterHairRGB = PlayerSaveGame->HairRGB;
 	CharacterTopIndex = PlayerSaveGame->TopIndex;
 
-	SavePlayerData();
+	//SavePlayerData();
 }
 
-void APlayerCharacterState::SavePlayerData()
+void APlayerCharacterState::SavePlayerData(FSaveSlotData SlotData)
 {
 	UPlayerSaveGame* NewPlayerData = NewObject<UPlayerSaveGame>();
 	NewPlayerData->Name = GetPlayerName();
@@ -95,11 +107,20 @@ void APlayerCharacterState::SavePlayerData()
 	NewPlayerData->HairRGB = CharacterHairRGB;
 	NewPlayerData->TopIndex = CharacterTopIndex;
 
-	if (!UGameplayStatics::SaveGameToSlot(NewPlayerData, SaveSlotName, 0))
+	SlotData.PlayerSaveSlot = NewPlayerData;
+
+	if (!UGameplayStatics::SaveGameToSlot(SlotData.PlayerSaveSlot, SlotData.SaveSlotName, SlotData.SlotIndex))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Save Game Error"));
 	}
 
+}
+
+bool APlayerCharacterState::LoadSaveFileCheck(FSaveSlotData SlotData)
+{
+	if (SlotData.PlayerSaveSlot != nullptr)
+		return true;
+	else return false;
 }
 
 //void APlayerCharacterState::SetCharacterLevel(int32 CharacterLevel)
